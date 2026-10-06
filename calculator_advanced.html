@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px;
+      background: linear-gradient(135deg, #5eeaff 0%, #6fb4ff 60%, #6aa0ff 100%);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .calculator {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    h1 {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 40px;
+      color: #d11f1f;
+      text-align: center;
+      margin: 20px 0 28px;
+    }
+
+    .display {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 20px;
+      text-align: center;
+      padding: 14px 12px;
+      min-height: 52px;
+      margin-bottom: 18px;
+      background: #f3e1e1;
+      border: 1px solid #555;
+      border-radius: 8px;
+      word-break: break-word;
+    }
+    .display.error { color: #b00020; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      height: 48px;
+      font-size: 16px;
+      text-align: center;
+      border: none;
+      border-radius: 8px;
+      background: #fff;
+      outline: none;
+    }
+    input[type="number"]:focus { box-shadow: 0 0 0 2px #2563eb; }
+
+    button {
+      height: 52px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #f0f0f0;
+      color: #111;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.05s;
+    }
+    button:hover { background: #e2e2e2; }
+    button:active { transform: scale(0.97); }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Calculator</h1>
+
+    <div id="display" class="display">Enter two numbers and choose an operation</div>
+
+    <div class="grid">
+      <input type="number" id="num1" placeholder="First number" step="any">
+      <input type="number" id="num2" placeholder="Second number" step="any">
+
+      <button onclick="calculate('add')">Addition (+)</button>
+      <button onclick="calculate('subtract')">Subtraction (-)</button>
+      <button onclick="calculate('multiply')">Multiplication (*)</button>
+      <button onclick="calculate('divide')">Division (/)</button>
+      <button onclick="calculate('modulus')">Modulus (%)</button>
+      <button onclick="calculate('power')">Exponentiation (^)</button>
+      <button onclick="clearAll()">AC</button>
+    </div>
+  </div>
+
+  <script>
+    const firstInput  = document.getElementById("num1");
+    const secondInput = document.getElementById("num2");
+    const display     = document.getElementById("display");
+
+    // Operation table: name shown on screen, symbol for console, and the maths
+    const operations = {
+      add:      { name: "Addition",       symbol: "+", calc: (a, b) => a + b },
+      subtract: { name: "Subtraction",    symbol: "-", calc: (a, b) => a - b },
+      multiply: { name: "Multiplication", symbol: "*", calc: (a, b) => a * b },
+      divide:   { name: "Division",       symbol: "/", calc: (a, b) => a / b },
+      modulus:  { name: "Modulus",        symbol: "%", calc: (a, b) => a % b },
+      power:    { name: "Exponentiation", symbol: "^", calc: (a, b) => a ** b }
+    };
+
+    // Write a message inside the calculator's display box
+    const showMessage = (text, isError = false) => {
+      display.textContent = text;
+      display.classList.toggle("error", isError);
+    };
+
+    // Round very long decimals (e.g. 0.1 + 0.2) so the display stays tidy
+    const tidy = (value) => Number.isInteger(value) ? value : parseFloat(value.toFixed(10));
+
+    // Runs when an operation button is clicked
+    const calculate = (key) => {
+      const op = operations[key];
+
+      if (firstInput.value === "" || secondInput.value === "") {
+        return showMessage("Please enter both numbers first.", true);
+      }
+
+      const a = Number(firstInput.value);
+      const b = Number(secondInput.value);
+
+      if ((key === "divide" || key === "modulus") && b === 0) {
+        console.error(`${op.name} by zero is not allowed.`);
+        return showMessage(`${op.name} by zero is not allowed.`, true);
+      }
+
+      const result = tidy(op.calc(a, b));
+
+      showMessage(`The ${op.name} is: ${result}`);
+
+      console.log(`Number 1  : ${a}`);
+      console.log(`Number 2  : ${b}`);
+      console.log(`Operation : ${op.name} (${op.symbol})`);
+      console.log(`Result    : ${result}`);
+      console.log("-----------------------------");
+    };
+
+    // AC button: reset inputs and display
+    const clearAll = () => {
+      firstInput.value = "";
+      secondInput.value = "";
+      showMessage("Enter two numbers and choose an operation");
+      firstInput.focus();
+    };
+  </script>
+</body>
+</html>
