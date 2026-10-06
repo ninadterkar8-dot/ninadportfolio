@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninad | AI Engineer & Graphic Designer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tech: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        deepbg: '#050505',
+                        darkcard: '#111111',
+                        neonblue: '#00f3ff',
+                        neonpurple: '#bc13fe',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for specific neon and animation effects -->
+    <style>
+        body {
+            background-color: #050505;
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+
+        .neon-text-blue {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .neon-text-purple {
+            text-shadow: 0 0 10px rgba(188, 19, 254, 0.5), 0 0 20px rgba(188, 19, 254, 0.3);
+        }
+
+        .neon-border {
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .neon-border:hover {
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.4), inset 0 0 10px rgba(188, 19, 254, 0.2);
+            border-color: rgba(188, 19, 254, 0.8);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #00f3ff, #bc13fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Abstract shapes for background */
+        .bg-shape-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(188,19,254,0.1) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+        }
+
+        .bg-shape-2 {
+            position: absolute;
+            bottom: 10%;
+            right: -10%;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,243,255,0.1) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+        }
+
+        /* Input field autofill fix for dark mode */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus {
+            -webkit-text-fill-color: white;
+            -webkit-box-shadow: 0 0 0px 1000px #111111 inset;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans relative">
+
+    <div class="bg-shape-1 fixed"></div>
+    <div class="bg-shape-2 fixed"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 top-0 transition-all duration-300 bg-transparent py-4">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-tech font-bold tracking-tighter text-white">
+                NIN<span class="text-neonblue">AD</span><span class="text-neonpurple">.</span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
+                <a href="#home" class="hover:text-neonblue transition-colors text-gray-300">Home</a>
+                <a href="#about" class="hover:text-neonpurple transition-colors text-gray-300">About</a>
+                <a href="#portfolio" class="hover:text-neonblue transition-colors text-gray-300">Portfolio</a>
+                <a href="#contact" class="hover:text-neonpurple transition-colors text-gray-300">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-darkcard/95 backdrop-blur-lg border-b border-gray-800 flex flex-col items-center py-6 space-y-6 md:hidden shadow-lg shadow-neonpurple/10">
+            <a href="#home" class="mobile-link text-lg font-medium hover:text-neonblue text-gray-300">Home</a>
+            <a href="#about" class="mobile-link text-lg font-medium hover:text-neonpurple text-gray-300">About</a>
+            <a href="#portfolio" class="mobile-link text-lg font-medium hover:text-neonblue text-gray-300">Portfolio</a>
+            <a href="#contact" class="mobile-link text-lg font-medium hover:text-neonpurple text-gray-300">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6 relative">
+        <div class="max-w-4xl mx-auto text-center z-10">
+            <p class="text-neonblue font-tech tracking-widest uppercase text-sm md:text-base mb-4 inline-block px-4 py-1 border border-neonblue/30 rounded-full bg-neonblue/5">
+                Welcome to my universe
+            </p>
+            <h1 class="text-5xl md:text-7xl font-tech font-bold leading-tight mb-6">
+                Hello, I'm <span class="text-white">Ninad</span><br>
+                <span class="gradient-text">Aspiring AI Engineer</span><br>
+                <span class="text-3xl md:text-5xl text-gray-400">& Graphic Designer</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                Bridging the gap between intelligent systems and creative visual design. Exploring the intersections of Python, Prompt Engineering, and 3D Art.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <a href="#portfolio" class="px-8 py-3 rounded-full bg-gradient-to-r from-neonblue to-neonpurple text-white font-semibold hover:scale-105 transition-transform duration-300 shadow-[0_0_15px_rgba(0,243,255,0.4)]">
+                    View My Work
+                </a>
+                <a href="#contact" class="px-8 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-neonpurple hover:text-neonpurple hover:bg-neonpurple/10 transition-all duration-300">
+                    Let's Talk
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-gray-500 hover:text-neonblue transition-colors">
+                <i class="fa-solid fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-6 bg-darkcard/50 backdrop-blur-sm relative border-y border-gray-800/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <!-- Text Content -->
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-tech font-bold mb-6 flex items-center">
+                        <span class="text-neonpurple mr-3">&lt;/&gt;</span> About Me
+                    </h2>
+                    <p class="text-gray-400 leading-relaxed mb-6 text-lg">
+                        I am a passionate technologist and creator. My journey navigates through the logical structures of data and the boundless realms of digital art. I specialize in leveraging Artificial Intelligence to generate stunning concepts while building solid programmatic foundations.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-lg">
+                        Whether I am crafting meticulous AI prompts for 3D character designs or optimizing database structures, I strive for innovation and excellence.
+                    </p>
+                </div>
+
+                <!-- Skills Grid -->
+                <div class="w-full md:w-1/2">
+                    <h3 class="text-xl font-tech font-semibold mb-6 text-gray-200 border-b border-gray-800 pb-2">Core Competencies</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 rounded-md bg-deepbg border border-neonblue/40 text-neonblue text-sm font-medium hover:bg-neonblue/10 transition-colors cursor-default">Python</span>
+                        <span class="px-4 py-2 rounded-md bg-deepbg border border-neonblue/40 text-neonblue text-sm font-medium hover:bg-neonblue/10 transition-colors cursor-default">DBMS (SQL/NoSQL)</span>
+                        <span class="px-4 py-2 rounded-md bg-deepbg border border-neonblue/40 text-neonblue text-sm font-medium hover:bg-neonblue/10 transition-colors cursor-default">Digital Electronics</span>
+                        <span class="px-4 py-2 rounded-md bg-deepbg border border-neonpurple/40 text-neonpurple text-sm font-medium hover:bg-neonpurple/10 transition-colors cursor-default">AI Prompt Engineering</span>
+                        <span class="px-4 py-2 rounded-md bg-deepbg border border-neonpurple/40 text-neonpurple text-sm font-medium hover:bg-neonpurple/10 transition-colors cursor-default">3D Figurine Concepts</span>
+                        <span class="px-4 py-2 rounded-md bg-deepbg border border-gray-600 text-gray-300 text-sm font-medium hover:bg-gray-800 transition-colors cursor-default">Data Structures</span>
+                        <span class="px-4 py-2 rounded-md bg-deepbg border border-gray-600 text-gray-300 text-sm font-medium hover:bg-gray-800 transition-colors cursor-default">Graphic Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 px-6 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-tech font-bold mb-4 inline-block relative">
+                    Featured <span class="gradient-text">Projects</span>
+                    <div class="absolute -bottom-2 left-1/4 right-1/4 h-1 bg-gradient-to-r from-transparent via-neonblue to-transparent"></div>
+                </h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">A showcase of my dual expertise in visual creativity and technical development.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Project Card 1: AI & Graphics -->
+                <div class="group neon-border rounded-xl bg-darkcard overflow-hidden flex flex-col relative">
+                    <!-- Image Placeholder / Visual -->
+                    <div class="h-64 bg-gradient-to-br from-[#1a1025] to-[#0a192f] relative overflow-hidden flex items-center justify-center">
+                        <!-- Abstract 3D/AI representation -->
+                        <div class="absolute inset-0 opacity-30 group-hover:scale-110 group-hover:opacity-50 transition-all duration-700" 
+                             style="background-image: radial-gradient(circle at 50% 50%, #bc13fe 2px, transparent 2px); background-size: 20px 20px;"></div>
+                        <i class="fa-solid fa-cube text-6xl text-neonpurple group-hover:-rotate-12 transition-transform duration-500 relative z-10 drop-shadow-[0_0_15px_rgba(188,19,254,0.8)]"></i>
+                        
+                        <div class="absolute top-4 right-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-neonpurple/30 text-xs font-tech text-neonpurple">
+                            Generative Art & Design
+                        </div>
+                    </div>
+                    
+                    <div class="p-8 flex-grow flex flex-col">
+                        <h3 class="text-2xl font-bold font-tech text-white mb-3 group-hover:text-neonpurple transition-colors">AI Prompt Engineering & 3D Figurine Designs</h3>
+                        <p class="text-gray-400 mb-6 flex-grow text-sm leading-relaxed">
+                            Crafting hyper-detailed prompt architectures using Midjourney and Stable Diffusion to generate concepts for highly intricate 3D printable figurines. Combining graphic design principles with machine learning outputs.
+                        </p>
+                        <div class="flex gap-2 mt-auto">
+                            <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">PromptCraft</span>
+                            <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">Stable Diffusion</span>
+                            <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">UI/UX</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2: Python & Tech -->
+                <div class="group neon-border rounded-xl bg-darkcard overflow-hidden flex flex-col relative">
+                    <!-- Image Placeholder / Visual -->
+                    <div class="h-64 bg-gradient-to-br from-[#0a192f] to-[#101915] relative overflow-hidden flex items-center justify-center">
+                        <!-- Code background representation -->
+                        <div class="absolute inset-0 opacity-20 group-hover:opacity-40 transition-all duration-700 font-mono text-xs text-neonblue p-4 overflow-hidden break-words whitespace-pre-wrap">
+def initialize_system(matrix, user):
+    try:
+        connect_db(host='localhost')
+        load_data_structures(optimized=True)
+        return SystemState.ONLINE
+    except Exception as e:
+        log_error(e)
+        reset_circuitry()
+                        </div>
+                        <i class="fa-brands fa-python text-6xl text-neonblue group-hover:rotate-12 transition-transform duration-500 relative z-10 drop-shadow-[0_0_15px_rgba(0,243,255,0.8)]"></i>
+                        
+                        <div class="absolute top-4 right-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-neonblue/30 text-xs font-tech text-neonblue">
+                            Software Development
+                        </div>
+                    </div>
+                    
+                    <div class="p-8 flex-grow flex flex-col">
+                        <h3 class="text-2xl font-bold font-tech text-white mb-3 group-hover:text-neonblue transition-colors">Python & Data Structures Implementations</h3>
+                        <p class="text-gray-400 mb-6 flex-grow text-sm leading-relaxed">
+                            Developing efficient algorithms and robust database management systems. Projects include complex data manipulation, algorithmic problem solving, and simulating digital electronic logic circuits through code.
+                        </p>
+                        <div class="flex gap-2 mt-auto">
+                            <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">Python 3</span>
+                            <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">SQL</span>
+                            <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">Algorithms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 bg-darkcard/50 backdrop-blur-sm border-t border-gray-800/50">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-tech font-bold mb-4">
+                    Initiate <span class="text-neonpurple">Connection</span>
+                </h2>
+                <p class="text-gray-400">Interested in collaborating or have a question? Drop a message below.</p>
+            </div>
+
+            <div class="bg-deepbg p-8 md:p-10 rounded-2xl border border-gray-800 shadow-2xl relative overflow-hidden">
+                <!-- decorative glow -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-neonpurple rounded-full mix-blend-screen filter blur-[80px] opacity-30"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-neonblue rounded-full mix-blend-screen filter blur-[80px] opacity-30"></div>
+                
+                <form onsubmit="event.preventDefault(); alert('In a real environment, this would send an email! Form submitted successfully.');" class="relative z-10 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label for="name" class="text-sm font-medium text-gray-400">Identification (Name)</label>
+                            <input type="text" id="name" required class="w-full bg-darkcard border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neonblue focus:ring-1 focus:ring-neonblue transition-colors">
+                        </div>
+                        <div class="space-y-2">
+                            <label for="email" class="text-sm font-medium text-gray-400">Comms Link (Email)</label>
+                            <input type="email" id="email" required class="w-full bg-darkcard border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neonpurple focus:ring-1 focus:ring-neonpurple transition-colors">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="message" class="text-sm font-medium text-gray-400">Transmission Payload (Message)</label>
+                        <textarea id="message" rows="5" required class="w-full bg-darkcard border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neonblue focus:ring-1 focus:ring-neonblue transition-colors resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-4 rounded-lg bg-transparent border-2 border-neonpurple text-neonpurple font-bold tracking-wide hover:bg-neonpurple hover:text-white hover:shadow-[0_0_20px_rgba(188,19,254,0.6)] transition-all duration-300 flex items-center justify-center gap-2">
+                        Transmit Data <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 border-t border-gray-800/80 bg-deepbg text-center relative z-10">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-500 text-sm">
+                &copy; <span id="year"></span> Ninad. All systems operational.
+            </p>
+            <div class="flex space-x-6 text-gray-500">
+                <a href="#" class="hover:text-neonblue transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                <a href="#" class="hover:text-neonpurple transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                <a href="#" class="hover:text-neonblue transition-colors"><i class="fa-brands fa-artstation text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-darkcard/90', 'backdrop-blur-md', 'border-b', 'border-gray-800', 'shadow-lg');
+                navbar.classList.remove('bg-transparent', 'py-4');
+                navbar.classList.add('py-3');
+            } else {
+                navbar.classList.remove('bg-darkcard/90', 'backdrop-blur-md', 'border-b', 'border-gray-800', 'shadow-lg');
+                navbar.classList.add('bg-transparent', 'py-4');
+                navbar.classList.remove('py-3');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const icon = mobileMenuBtn.querySelector('i');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+
+        // Close mobile menu when clicking a link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+</body>
+</html>
